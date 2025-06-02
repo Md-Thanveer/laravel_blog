@@ -23,7 +23,22 @@ class PostResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('title')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\Textarea::make('content')
+                    ->required()
+                    ->columnSpanFull(),
+                Forms\Components\Select::make('tags')
+                    ->preload()
+                    ->searchable()
+                    ->multiple()
+                    ->relationship('tags', 'name'), // Specify the relationship and the display column
+                // Forms\Components\Repeater::make('tags')
+                //     ->relationship()
+                //     ->schema([
+                //         Forms\Components\TextInput::make('name')->required(),
+                //     ])
             ]);
     }
 
@@ -31,7 +46,16 @@ class PostResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('title')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
